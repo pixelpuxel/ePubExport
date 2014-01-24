@@ -112,7 +112,6 @@ class SpecialePub extends SpecialPage {
        
 		$html = $this->getHtmlHeader( $page );
 		$html .= "<h1>" . $chapterName . "</h1>"
-		      . "<h4 class='warning'>" . $this->lastModified($article) . "</h4>\n" // Print version warning
 		      . $bhtml . "</body></html>";
 
 		return $html;
