@@ -111,7 +111,7 @@ class SpecialePub extends SpecialPage {
 		$bhtml = $this->handleImages($bhtml);
        
 		$html = $this->getHtmlHeader( $page );
-		$html .= "<h1>" . $chapterName . "</h1>"
+		$html .= "<h2>" . $chapterName . "</h2>"
 		      . $bhtml . "</body></html>";
 
 		return $html;
