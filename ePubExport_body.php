@@ -108,6 +108,16 @@ class SpecialePub extends SpecialPage {
 			$bhtm = str_replace('img src=\"https:\/\/','img src=\"http:\/\/', $bhtml);
 		}
 		
+		// change <p> to <p class=\"indent\"> from the second acurring <p>
+  		$bhtml = preg_replace ('/<\/h1>\n<p>/', '</h1><p class="noindent">', $bhtml);
+  		$bhtml = preg_replace ('/<\/h2>\n<p>/', '</h2><p class="noindent">', $bhtml);
+  		$bhtml = preg_replace ('/<\/h3>\n<p>/', '</h3><p class="noindent">', $bhtml);
+  		$bhtml = preg_replace ('/<\/h4>\n<p>/', '</h4><p class="noindent">', $bhtml);
+  		$bhtml = preg_replace ('/<\/h5>\n<p>/', '</h5><p class="noindent">', $bhtml);
+  		$bhtml = preg_replace ('/<\/h6>\n<p>/', '</h6><p class="noindent">', $bhtml);
+  		
+		$bhtml = preg_replace ('/<p>/', '<p class="indent">', $bhtml);
+		
 		$bhtml = $this->handleImages($bhtml);
        
 		$html = $this->getHtmlHeader( $page );
