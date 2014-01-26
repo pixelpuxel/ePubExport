@@ -29,7 +29,7 @@ text-align: center;
 }
 .h2
 {
-font-size: 1.5rem;
+font-size: 1.5em;
 font-weight: bold;
 margin-top: 2em;
 margin-bottom: 2em;
@@ -134,7 +134,7 @@ text-indent : -1.5em;
 }
 .footnote
 {
-font-size: 0.88rem;
+font-size: 0.88em;
 margin-top: .3em;
 margin-bottom: 0.1em;
 margin-left : 1.5em;
@@ -143,7 +143,7 @@ text-indent: -0.9em;
 }
 .footnote1
 {
-font-size: 0.88rem;
+font-size: 0.88em;
 margin-top: .3em;
 margin-bottom: 0.1em;
 margin-left : 1.5em;
@@ -152,7 +152,7 @@ text-indent: -1.3em;
 }
 .lit
 {
-font-size: 0.88rem;
+font-size: 0.88em;
 margin-top: .4em;
 margin-bottom: 0.1em;
 margin-left : 1.5em;
