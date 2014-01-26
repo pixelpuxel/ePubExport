@@ -361,7 +361,7 @@ class SpecialePub extends SpecialPage {
 		foreach ($pages as $pg) {
 			$content = $this->save1page($pg);
 			if ( $content !== null ) {
-				$this->book->addChapter("article ". $i .": " . $filename = str_replace("_", " ", $pg), "wikipage" . $i . ".html", $content, true);
+				$this->book->addChapter("". $i .". " . $filename = str_replace("_", " ", $pg), "wikipage" . $i . ".html", $content, true);
 				$i++;
 			}
 		}
