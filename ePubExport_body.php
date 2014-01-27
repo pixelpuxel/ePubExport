@@ -196,17 +196,16 @@ class SpecialePub extends SpecialPage {
 		Fatal error: Maximum execution time of 30 seconds exceeded in C:\wamp\www\wiki\extensions\ePubExport\ePubExport_body.php on line 156
 		---------------------------------------
 		*/
-		/*$coverImage = isset($wgePubExportProperties['cover_image'])?$wgePubExportProperties['cover_image']:'..' . $wgLogo;
+		$coverImage = isset($wgePubExportProperties['cover_image'])?$wgePubExportProperties['cover_image']:'..' . $wgLogo;
 		$logoName = "images/" . basename($coverImage);
 		$logoData = file_get_contents($coverImage);
 		$imageSize = getimagesize($coverImage); 
 		$mime = $imageSize['mime'];
 		
 		$this->book->addFile($logoName, uniqid(),  $logoData, $mime);
-		*/
 		
 		$cover = $content_start . "<div class='cover'>\n<h1 class='cover'>". $bookname ."</h1>\n<h2 class='cover'>" . wfMsg('credit_text', $d, $t) ."</h2>\n"
-		/*         . "<img class='cover' src='$logoName' />\n"*/
+		         . "<img class='cover' src='$logoName' />\n"
 		         . "</div>\n</body>\n</html>\n";
 		$this->book->addChapter("Cover", "Cover.html", $cover);
 	}
