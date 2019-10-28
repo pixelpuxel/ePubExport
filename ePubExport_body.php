@@ -47,7 +47,8 @@ class SpecialePub extends SpecialPage {
 		global $wgLanguageCode;
 		global $wgePubExportProperties;
 		
-		SpecialPage::SpecialPage( 'ePubPrint' );
+		// gss geändert: 		SpecialPage::SpecialPage( 'ePubPrint' ); in ->
+		parent::__construct( 'ePubPrint' );
 		$os = getenv ("SERVER_SOFTWARE");
 		$this->book = new EPub();
 		$this->direction = ($wgContLang->isRTL() ? "rtl" : "ltr");
@@ -74,7 +75,8 @@ class SpecialePub extends SpecialPage {
 			return null;
 		}
 		
-		if( !$title->userCanRead() ){
+		// gss geändert von if( !$title->userCanRead() ){ ->
+		if( !$title->userCan('read') ){
 			return null;
 		}
 		
@@ -85,9 +87,9 @@ class SpecialePub extends SpecialPage {
 		$parserOptions->setEditSection( false );
 		$parserOptions->setTidy(true);
 		$wgParser->mShowToc = false;
-		$parserOutput = $wgParser->parse( $article->preSaveTransform( $article->getContent() ) ."\n\n", $title, $parserOptions );
-		
-		$userSkin = $parserOptions->getSkin();
+        // gss 		$parserOutput = $wgParser->parse( $article->preSaveTransform( $article->getContent() ) ."\n\n", $title, $parserOptions );
+        $parserOutput = $wgParser->parse(  $article->getContent()  ."\n\n", $title, $parserOptions );
+        // gss  $userSkin = $parserOptions->getSkin();
 		$bhtml = $parserOutput->getText();
 		// XXX Hack to thread the EUR sign correctly
 		$bhtml = str_replace(chr(0xE2) . chr(0x82) . chr(0xAC), chr(0xA4), $bhtml);
@@ -99,7 +101,8 @@ class SpecialePub extends SpecialPage {
 		// removed heights of images
 		$bhtml = preg_replace ('/height="\d+"/', '', $bhtml);
 		// set upper limit for width
-		$bhtml = preg_replace ('/width="(\d+)"/e', '"width=\"".($1> MAX_IMAGE_WIDTH ?  MAX_IMAGE_WIDTH : $1)."\""', $bhtml);
+		//gss geaendert 		auskommentiert, weil depreciated -> bilder werden merkwürdig angezeigt.
+		//$bhtml = preg_replace ('/width="(\d+)"/e', '"width=\"".($1> MAX_IMAGE_WIDTH ?  MAX_IMAGE_WIDTH : $1)."\""', $bhtml);
 		
 		// remove scripts
 		$bhtml = preg_replace('#(\n?<script[^>]*?>.*?</script[^>]*?>)|(\n?<script[^>]*?/>)#is', '', $bhtml);
@@ -204,7 +207,9 @@ class SpecialePub extends SpecialPage {
 		
 		$this->book->addFile($logoName, uniqid(),  $logoData, $mime);
 		
-		$cover = $content_start . "<div class='cover'>\n<h1 class='cover'>". $bookname ."</h1>\n<h2 class='cover'>" . wfMsg('credit_text', $d, $t) ."</h2>\n"
+		// gss geändert $cover = $content_start . "<div class='cover'>\n<h1 class='cover'>". $bookname ."</h1>\n<h2 class='cover'>" . wfMsg('credit_text', $d, $t) ."</h2>\n" -> in
+		//gss geändert (Untertitel entfernt): $cover = $content_start . "<div class='cover'>\n<h1 class='cover'>". $bookname ."</h1>\n<h2 class='cover'>" . wfMessage('credit_text', $d, $t) ."</h2>\n"
+		$cover = $content_start . "<div class='cover'>\n<h1 class='cover'>". $bookname ."</h1>\n<h2 class='cover'>"."</h2>\n"
 		         . "<img class='cover' src='$logoName' />\n"
 		         . "</div>\n</body>\n</html>\n";
 		$this->book->addChapter("Cover", "Cover.html", $cover);
@@ -370,7 +375,9 @@ class SpecialePub extends SpecialPage {
 		foreach ($pages as $pg) {
 			$content = $this->save1page($pg);
 			if ( $content !== null ) {
-				$this->book->addChapter("". $i .". " . $filename = str_replace("_", " ", $pg), "wikipage" . $i . ".html", $content, true);
+				// gss geänadert: Filname von "wikipage" nach "Chapter"
+				//$this->book->addChapter("". $i .". " . $filename = str_replace("_", " ", $pg), "wikipage" . $i . ".html", $content, true);
+				$this->book->addChapter("". $i .". " . $filename = str_replace("_", " ", $pg), "Chapter_" . $i . ".html", $content, true);
 				$i++;
 			}
 		}
@@ -393,7 +400,7 @@ class SpecialePub extends SpecialPage {
 		$dopdf = false;
 		if ($wgRequest->wasPosted()) {
 			$pagel = $wgRequest->getText ('pagel');
-			$pages = array_filter( explode( "\n", $pagel ), 'wfFilterPageePub' );
+			$pages = array_filter( explode( "\n", $pagel ), 'wfFilterPageePub' ); //split each line in textfield into one page
 			$filename = $wgRequest->getText ('filename');
 			$description = $wgRequest->getText ('description');
 			
@@ -419,29 +426,35 @@ class SpecialePub extends SpecialPage {
 
 		$self = SpecialPage::getTitleFor( 'ePubPrint' );
 
-		$wgOut->addHtml(wfMsgExt( 'ePub_special_page_title', 'parse'));
-		$wgOut->addHtml( wfMsgExt( 'ePub_print_text', 'parse' ));
-		$form = Xml::openElement( 'form', array( 'method' => 'post',
+		// gss $wgOut->addHtml(wfMsgExt( 'ePub_special_page_title', 'parse')); ->
+        $wgOut->addHtml(wfMessage( 'ePub_special_page_title', 'parse'));
+        // gss $wgOut->addHtml( wfMsgExt( 'ePub_print_text', 'parse' )); ->
+        $wgOut->addHtml(wfMessage( 'ePub_print_text', 'parse' ));
+        $form = Xml::openElement( 'form', array( 'method' => 'post',
 							 'action' => $self->getLocalUrl( 'action=submit' ) ) ); 
 		$form .= "<p>";
 		$form .= Xml::openElement( 'textarea', array( 'name' => 'pagel', 'cols' => 40, 'rows' => 10 ) );
 		$form .= Xml::closeElement( 'textarea' );
 		$form .= "</p>\n";
-		$form .=  wfMsgExt( 'ePub_enter_description', 'parse' );
-		$form .= "<p>";
+        // gss $form .=  wfMsgExt( 'ePub_enter_description', 'parse' );
+        $form .=  wfMessage( 'ePub_enter_description', 'parse' );
+        $form .= "<p>";
 		$form .= Xml::openElement( 'textarea', array( 'name' => 'description', 'cols' => 40, 'rows' => 10 ) );
-		$form .= wfMsg( 'default_description' );
-		$form .= Xml::closeElement( 'textarea' );
+        // gss $form .= wfMsg( 'default_description' );
+        $form .= wfMessage( 'default_description' );
+        $form .= Xml::closeElement( 'textarea' );
 		$form .= "</p>\n";
 
 		$form .= "<p>";
-		$form .= wfMsg ('ePub_filename').":";
-		$form .= Xml::openElement( 'input', array( 'type'=>'text', 'name' => 'filename', 'value' => $wgSitename . '_export' ) );
+        // gss $form .= wfMsg ('ePub_filename').":";
+        $form .= wfMessage ('ePub_filename').":";
+        $form .= Xml::openElement( 'input', array( 'type'=>'text', 'name' => 'filename', 'value' => $wgSitename . '_export' ) );
 		$form .= Xml::closeElement( 'input' );
 		$form .= "</p>";
 		$form .= "<p>";
-		$form .= Xml::submitButton( wfMsg( 'ePub_submit' ) );
-		$form .= "</p>";
+        // gss $form .= Xml::submitButton( wfMsg( 'ePub_submit' ) );
+        $form .= Xml::submitButton( wfMessage( 'ePub_submit' ) );
+        $form .= "</p>";
 		$form .= Xml::closeElement( 'form' );
 
 		$wgOut->addHtml( $form );

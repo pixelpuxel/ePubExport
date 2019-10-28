@@ -37,7 +37,7 @@ $wgHooks['SkinTemplateToolboxEnd'][] = 'wfSpecialePubToolbox';
 function wfSpecialePubNav( &$skintemplate, &$nav_urls, &$oldid, &$revid ) {
 	//wfLoadExtensionMessages( 'ePubPrint' );
         $nav_urls['ePubPrint'] = array(
-                        'text' => wfMsg( 'ePub_print_link' ),
+                        'text' => wfMessage( 'ePub_print_link' ),
                         'href' => $skintemplate->makeSpecialUrl( 'ePubPrint', "page=" . wfUrlencode( "{$skintemplate->thispage}" )  )
                 );
         return true;
