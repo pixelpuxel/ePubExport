@@ -48,6 +48,8 @@ $messages['en'] = array(
 		/* This text apears in the ebook (the epub file) uitself on the cover page. $1 and $2 will 
 		   automatically be changed to current date and time */
 		'credit_text' => "Exported from " . $wgSitename . " at $1, $2.",
+		/*gss Coverimage Description*/
+		'ePub_coverimage' => 'Coverimage', 
 );
 
 $messages['he'] = array(
@@ -111,6 +113,7 @@ $messages['de'] = array(
         'ePub_filename' => 'Dateiname',
 		'default_description' => 'Gruppe von Seiten aus ' . $wgSitename,
 		'credit_text' => "Exportiert aus " . $wgSitename . " am $1, $2.",
+		'ePub_coverimage' => 'Coverbild',
 );
 
 // Russian translation by dmitriy-opt: dmitriy-opt@users.sourceforge.net
