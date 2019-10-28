@@ -182,8 +182,10 @@ class SpecialePub extends SpecialPage {
 		global $wgLogo;
 		global $wgLang;
 		global $wgePubExportProperties;
+		global $wgRequest; //gss wegen Coverimage
 		
 		$content_start = $this->getHtmlHeader( $bookname );
+		$coverimagenew = $wgRequest->getText ('coverimagenew'); //gss wegen Coverimage aus Formular
 		
 		$timestamp = wfTimestampNow();
 
@@ -200,6 +202,9 @@ class SpecialePub extends SpecialPage {
 		---------------------------------------
 		*/
 		$coverImage = isset($wgePubExportProperties['cover_image'])?$wgePubExportProperties['cover_image']:'..' . $wgLogo;
+		// gss abfrage ob File gesetzt
+		$coverImage = $coverimagenew==""?$wgePubExportProperties['cover_image']:$coverimagenew;
+		
 		$logoName = "images/" . basename($coverImage);
 		$logoData = file_get_contents($coverImage);
 		$imageSize = getimagesize($coverImage); 
@@ -207,11 +212,18 @@ class SpecialePub extends SpecialPage {
 		
 		$this->book->addFile($logoName, uniqid(),  $logoData, $mime);
 		
-		// gss geändert $cover = $content_start . "<div class='cover'>\n<h1 class='cover'>". $bookname ."</h1>\n<h2 class='cover'>" . wfMsg('credit_text', $d, $t) ."</h2>\n" -> in
-		//gss geändert (Untertitel entfernt): $cover = $content_start . "<div class='cover'>\n<h1 class='cover'>". $bookname ."</h1>\n<h2 class='cover'>" . wfMessage('credit_text', $d, $t) ."</h2>\n"
+		//gss nochmal geändert (Untertitel entfernt): 
+		//$cover = $content_start . "<div class='cover'>\n<h1 class='cover'>". $bookname ."</h1>\n<h2 class='cover'>" . wfMessage('credit_text', $d, $t) ."</h2>\n"
+		
+		/* gss war mit Buchname (auskommentieren wenn wieder rein soll)
 		$cover = $content_start . "<div class='cover'>\n<h1 class='cover'>". $bookname ."</h1>\n<h2 class='cover'>"."</h2>\n"
 		         . "<img class='cover' src='$logoName' />\n"
 		         . "</div>\n</body>\n</html>\n";
+		*/
+		
+		$coverimage = 'images/'. basename($coverimagenew); // ist schon oben, kann gelöscht werden
+		$cover = $content_start ."<img src='$logoName' style='margin-top:0px;margin-bottom:0px;margin-left:0px;margin-right:0px;text-align:center;'/></body></html>";
+			
 		$this->book->addChapter("Cover", "Cover.html", $cover);
 	}
 	
