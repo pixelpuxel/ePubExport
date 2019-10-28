@@ -172,7 +172,7 @@ class SpecialePub extends SpecialPage {
 			. "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $this->cssFileName . "\" />\n"
 			. "<title>" . $pageTitle ."</title>\n"
 			. "</head>\n"
-			. "<body>\n";
+			. "<body style='margin:0em;'>\n";
 			
 		return $header;
 	}
