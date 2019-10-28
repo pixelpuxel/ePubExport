@@ -395,6 +395,10 @@ class SpecialePub extends SpecialPage {
 		global $wgRequest;
 		global $wgOut; 
 		global $wgSitename;
+		// gss für Input von Coverbild
+		global $wgLogo;
+		global $wgLang;
+		global $wgePubExportProperties;
 
 		//wfLoadExtensionMessages ('ePubPrint');
 		$dopdf = false;
@@ -444,6 +448,14 @@ class SpecialePub extends SpecialPage {
         $form .= wfMessage( 'default_description' );
         $form .= Xml::closeElement( 'textarea' );
 		$form .= "</p>\n";
+		
+		//gss Coverimage input Feld
+		$coverImage = isset($wgePubExportProperties['cover_image'])?$wgePubExportProperties['cover_image']:'..' . $wgLogo;
+		$logoName = $coverImage;
+
+		$form .= wfMessage ('ePub_coverimage').":";
+		$form .= Xml::openElement('input', array ('type'=>'text', 'name'=>'coverimagenew','value'=> $logoName));
+		$form .= Xml::closeElement('input');
 
 		$form .= "<p>";
         // gss $form .= wfMsg ('ePub_filename').":";
