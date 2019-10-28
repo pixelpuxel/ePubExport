@@ -4,6 +4,7 @@
  *
  * @addtogroup Extensions
  *
+**/
 $aliases = array();
  
 /** Hebrew */
