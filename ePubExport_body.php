@@ -241,12 +241,15 @@ class SpecialePub extends SpecialPage {
 
 			}
 		}
-		
+			
 		foreach ($img as $arr=>$image) {
 			
 			$fileName = $image[1];
 			$fileName = str_replace('"', '', $fileName);
-			
+
+			//gss 03.10.2020 - führender / rausgefiltert, da der Pfad sonst nicht richtig erkannt wird (in Dateien) und das Bild ein leeres File bleibt.
+			$fileName=preg_replace('/^\//', '',  $fileName);
+
 			$imageSize = getimagesize($fileName); 
 			$mime = $imageSize['mime'];
 		
