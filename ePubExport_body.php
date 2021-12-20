@@ -104,6 +104,9 @@ class SpecialePub extends SpecialPage {
 		//gss geaendert 		auskommentiert, weil depreciated -> bilder werden merkwürdig angezeigt.
 		//$bhtml = preg_replace ('/width="(\d+)"/e', '"width=\"".($1> MAX_IMAGE_WIDTH ?  MAX_IMAGE_WIDTH : $1)."\""', $bhtml);
 		
+		//gss 20.12.21 filter out srcset because it breaks the image dispay on iPhone
+		$bhtml = preg_replace('/srcset=".+\/>/', '/>',  $bhtml);
+		
 		// remove scripts
 		$bhtml = preg_replace('#(\n?<script[^>]*?>.*?</script[^>]*?>)|(\n?<script[^>]*?/>)#is', '', $bhtml);
 		
