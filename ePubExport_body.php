@@ -326,6 +326,7 @@ class SpecialePub extends SpecialPage {
 		if ( $this->cssfile == null ) {
 			$direction_str = "direction: " . $this->direction . ";\n";
 			$fontFamily = "'Times New Roman', Times, serif, 'sans serif'";
+			//$fontFamily = "'DejaVu Sans', sans-serif";
 		
 			$cssData = "";
 			// use default fonts:
@@ -350,7 +351,13 @@ class SpecialePub extends SpecialPage {
 			$cssData .= "h2, .mw-headline {\n  margin-top: -2px;\n  margin-bottom: 2px;\n  " . $direction_str . "\n}\n\n";
 			$cssData .= "h4.warning {\n  font-family: " . $fontFamily . ";\n  font-style: italic;\n  " . $direction_str ."\n}\n\n";
 			$cssData .= "div.cover {\n  text-align: center;\n}\n\n";
+			// gss 05.09.2022
+			$cssData .= "div.thumbcaption {\n  font-size: 0.8em;\n}\n\n";
 			$cssData .= "img.cover {\n  margin-left:auto;\n  margin-right:auto;\n  margin-top:20px;\n  text-align: center;\n}\n\n";
+			// gss 05.09.2022
+			$cssData .= "li {\n  font-family: " . $fontFamily . ";\n \n}\n\n";		
+			$cssData .= "div {\n  font-family: " . $fontFamily . ";\n \n}\n\n";		
+			
 		} else {
 			$cssData =  file_get_contents( $this->cssfile );			
 		}
